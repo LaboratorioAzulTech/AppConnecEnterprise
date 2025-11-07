@@ -1,0 +1,67 @@
+
+
+
+
+CREATE COMPUTE MODULE postDiadelasemana_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyMessageHeaders();
+		CALL getDayOfWeek();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE getDayOfWeek()
+	BEGIN
+		DECLARE day_in INTEGER;
+		DECLARE month_in INTEGER;
+		DECLARE year_in INTEGER;
+		DECLARE century INTEGER;
+		DECLARE yearOfCentury INTEGER;
+		DECLARE dayOfWeek INTEGER;
+
+		SET day_in = InputRoot.JSON.Data.Day;
+		SET month_in = InputRoot.JSON.Data.Month;
+		SET year_in = InputRoot.JSON.Data.Year;
+
+		IF (month_in = 1 OR month_in = 2) THEN
+			SET month_in = month_in + 12;
+			SET year_in = year_in - 1;
+		END IF;
+
+		SET century = CAST(FLOOR(year_in / 100) AS INTEGER);
+		SET yearOfCentury = MOD(year_in , 100);
+
+		SET dayOfWeek = MOD((day_in + CAST(FLOOR((13 * (month_in + 1)) / 5) AS INTEGER) + yearOfCentury + CAST(FLOOR(yearOfCentury / 4) AS INTEGER) + CAST(FLOOR(century / 4) AS INTEGER) + (5 * century)) , 7);
+
+
+		CASE dayOfWeek
+		WHEN 0 THEN
+			SET OutputRoot.JSON.Data.WeeDay = 'Saturday-Sabado';
+		WHEN 1 THEN
+			SET OutputRoot.JSON.Data.WeeDay = 'Sunday-Domingo';
+		WHEN 2 THEN
+			SET OutputRoot.JSON.Data.WeeDay = 'Monday-Lunes';
+		WHEN 3 THEN
+			SET OutputRoot.JSON.Data.WeeDay = 'Tuesday-Martes';
+		WHEN 4 THEN
+			SET OutputRoot.JSON.Data.WeeDay = 'Wednesday-Miercoles';
+		WHEN 5 THEN
+			SET OutputRoot.JSON.Data.WeeDay = 'Thursday-Jueves';
+		WHEN 6 THEN
+			SET OutputRoot.JSON.Data.WeeDay = 'Friday-Viernes';
+		ELSE
+			SET OutputRoot.JSON.Data.WeeDay = 'Unknown-Desconodido';
+		END CASE;
+	END;
+
+END MODULE;

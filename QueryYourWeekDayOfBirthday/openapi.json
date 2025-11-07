@@ -1,0 +1,91 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DiaDelCumple",
+    "version": "1.0.0",
+    "description": "DiaDelCumple"
+  },
+  "servers": [
+    {
+      "url": "/diadelcumple/v1"
+    }
+  ],
+  "x-ibm-configuration": {},
+  "components": {
+    "schemas": {
+      "Birthday": {
+        "type": "object",
+        "properties": {
+          "Day": {
+            "type": "integer"
+          },
+          "Month": {
+            "type": "integer"
+          },
+          "Year": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "Dia",
+          "Year",
+          "Day",
+          "Month"
+        ]
+      },
+      "BirtdayResponse": {
+        "type": "object",
+        "properties": {
+          "WeekDay": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "WeekDay"
+        ]
+      }
+    },
+    "requestBodies": {},
+    "responses": {
+      "200": {
+        "description": "Exitoso",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/BirtdayResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/weekday": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BirtdayResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "tags": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Birthday"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
