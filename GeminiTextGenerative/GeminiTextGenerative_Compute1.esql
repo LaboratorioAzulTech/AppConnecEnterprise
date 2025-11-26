@@ -1,0 +1,13 @@
+
+
+CREATE COMPUTE MODULE GeminiTextGenerative_Compute1
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+    	SET OutputRoot.Properties = InputRoot.Properties;
+CREATE FIELD OutputRoot.JSON.Data IDENTITY(JSON.Array)Data;
+
+SET OutputRoot.JSON.Data.Response5 = InputRoot.JSON.Data.candidates[1].*.content.parts[1].*.text;
+
+        RETURN TRUE;
+	END;
+END MODULE;

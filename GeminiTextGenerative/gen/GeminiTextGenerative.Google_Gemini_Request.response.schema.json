@@ -1,0 +1,596 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "candidates": {
+      "type": "array",
+      "description": "A list of generated content candidates",
+      "items": {
+        "type": "object",
+        "description": "A single content generation candidate",
+        "properties": {
+          "index": {
+            "type": "number",
+            "title": "Index",
+            "description": "The index of the candidate in the list",
+            "x-ibm-display-name": "Index",
+            "x-ibm-label": "Index"
+          },
+          "content": {
+            "type": "object",
+            "title": "Content",
+            "description": "The actual generated content",
+            "properties": {
+              "parts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "A part of the generated content, which can be text or a function call",
+                  "properties": {
+                    "text": {
+                      "type": "string",
+                      "title": "Text",
+                      "description": "The text content",
+                      "x-ibm-display-name": "Text",
+                      "x-ibm-label": "Text"
+                    },
+                    "functionCall": {
+                      "type": "object",
+                      "title": "Function call",
+                      "description": "Details of a function call if the model invokes a tool",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "title": "Name",
+                          "description": "The name of the function to be called",
+                          "x-ibm-display-name": "Name",
+                          "x-ibm-label": "Name"
+                        },
+                        "args": {
+                          "type": "object",
+                          "properties": {
+                            "location": {
+                              "type": "string",
+                              "title": "Location",
+                              "description": "Argument for the function call: location",
+                              "x-ibm-display-name": "Location",
+                              "x-ibm-label": "Location"
+                            },
+                            "unit": {
+                              "type": "string",
+                              "title": "Unit",
+                              "description": "Argument for the function call: unit",
+                              "x-ibm-display-name": "Unit",
+                              "x-ibm-label": "Unit"
+                            }
+                          },
+                          "title": "Arguments",
+                          "description": "Arguments for the function call"
+                        }
+                      }
+                    }
+                  }
+                },
+                "title": "Parts",
+                "description": "A part can only contain one of the accepted types in Part data: Text or Inline data"
+              },
+              "role": {
+                "type": "string",
+                "title": "Role",
+                "description": "The role of the entity that generated this content (for example, 'model')",
+                "x-ibm-display-name": "Role",
+                "x-ibm-label": "Role"
+              }
+            }
+          },
+          "avgLogprobs": {
+            "type": "number",
+            "title": "Average log probability",
+            "description": "The average log probability of the tokens in the generated content",
+            "x-ibm-display-name": "Average log probability",
+            "x-ibm-label": "Average log probability"
+          },
+          "logprobsResult": {
+            "type": "object",
+            "title": "Log probability result",
+            "description": "Detailed log probabilities for individual tokens",
+            "properties": {
+              "token": {
+                "type": "string",
+                "title": "Token",
+                "description": "The token itself",
+                "x-ibm-display-name": "Token",
+                "x-ibm-label": "Token"
+              },
+              "tokenId": {
+                "type": "number",
+                "title": "Token ID",
+                "description": "The numerical ID of the token",
+                "x-ibm-display-name": "Token ID",
+                "x-ibm-label": "Token ID"
+              },
+              "logProbability": {
+                "type": "number",
+                "title": "Log probability",
+                "description": "The log probability of this specific token",
+                "x-ibm-display-name": "Log probability",
+                "x-ibm-label": "Log probability"
+              }
+            }
+          },
+          "finishReason": {
+            "type": "string",
+            "title": "Finish reason",
+            "description": "Output only. The reason why the model stopped generating tokens. If empty, the model has not stopped generating tokens. This field is optional.",
+            "enum": [
+              "FINISH_REASON_UNSPECIFIED",
+              "STOP",
+              "MAX_TOKENS",
+              "SAFETY",
+              "RECITATION",
+              "LANGUAGE",
+              "OTHER",
+              "BLOCKLIST",
+              "PROHIBITED_CONTENT",
+              "SPII",
+              "MALFORMED_FUNCTION_CALL",
+              "IMAGE_SAFETY"
+            ],
+            "x-ibm-display-name": "Finish reason",
+            "x-ibm-label": "Finish reason",
+            "display": {
+              "enum": [
+                "FINISH_REASON_UNSPECIFIED - Default value. This value is unused.",
+                "STOP - Natural stop point of the model or provided stop sequence.",
+                "MAX_TOKENS - The maximum number of tokens as specified in the request was reached.",
+                "SAFETY - The response candidate content was flagged for safety reasons.",
+                "RECITATION - The response candidate content was flagged for recitation reasons.",
+                "LANGUAGE - The response candidate content was flagged for using an unsupported language.",
+                "OTHER - Unknown reason.",
+                "BLOCKLIST - Token generation stopped because the content contains forbidden terms.",
+                "PROHIBITED_CONTENT - Token generation stopped for potentially containing prohibited content.",
+                "SPII - Token generation stopped because the content potentially contains Sensitive Personally Identifiable Information (SPII).",
+                "MALFORMED_FUNCTION_CALL - The function call generated by the model is invalid.",
+                "IMAGE_SAFETY - Token generation stopped because generated images contain safety violations."
+              ]
+            }
+          },
+          "safetyRatings": {
+            "type": "array",
+            "description": "Safety ratings for the generated content",
+            "items": {
+              "type": "object",
+              "description": "A safety rating for a specific category",
+              "properties": {
+                "category": {
+                  "type": "string",
+                  "title": "Category",
+                  "description": "The category for this rating",
+                  "enum": [
+                    "HARM_CATEGORY_UNSPECIFIED",
+                    "HARM_CATEGORY_DEROGATORY",
+                    "HARM_CATEGORY_TOXICITY",
+                    "HARM_CATEGORY_VIOLENCE",
+                    "HARM_CATEGORY_SEXUAL",
+                    "HARM_CATEGORY_MEDICAL",
+                    "HARM_CATEGORY_DANGEROUS",
+                    "HARM_CATEGORY_HARASSMENT",
+                    "HARM_CATEGORY_HATE_SPEECH",
+                    "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                    "HARM_CATEGORY_DANGEROUS_CONTENT",
+                    "HARM_CATEGORY_CIVIC_INTEGRITY"
+                  ],
+                  "x-ibm-display-name": "Category",
+                  "x-ibm-label": "Category",
+                  "display": {
+                    "enum": [
+                      "HARM_CATEGORY_UNSPECIFIED - Category is unspecified.",
+                      "HARM_CATEGORY_DEROGATORY - PaLM - Negative or harmful comments targeting identity and/or protected attribute.",
+                      "HARM_CATEGORY_TOXICITY - PaLM - Content that is rude, disrespectful, or profane.",
+                      "HARM_CATEGORY_VIOLENCE - PaLM - Describes scenarios depicting violence against an individual or group, or general descriptions of gore.",
+                      "HARM_CATEGORY_SEXUAL - PaLM - Contains references to sexual acts or other lewd content.",
+                      "HARM_CATEGORY_MEDICAL - PaLM - Promotes unchecked medical advice.",
+                      "HARM_CATEGORY_DANGEROUS - PaLM - Dangerous content that promotes, facilitates, or encourages harmful acts.",
+                      "HARM_CATEGORY_HARASSMENT - Gemini - Harassment content.",
+                      "HARM_CATEGORY_HATE_SPEECH - Gemini - Hate speech and content.",
+                      "HARM_CATEGORY_SEXUALLY_EXPLICIT - Gemini - Sexually explicit content.",
+                      "HARM_CATEGORY_DANGEROUS_CONTENT - Gemini - Dangerous content.",
+                      "HARM_CATEGORY_CIVIC_INTEGRITY - Gemini - Content that may be used to harm civic integrity."
+                    ]
+                  }
+                },
+                "probability": {
+                  "type": "string",
+                  "title": "Probability",
+                  "description": "The probability of harm for this content",
+                  "enum": [
+                    "HARM_PROBABILITY_UNSPECIFIED",
+                    "NEGLIGIBLE",
+                    "LOW",
+                    "MEDIUM",
+                    "HIGH"
+                  ],
+                  "x-ibm-display-name": "Probability",
+                  "x-ibm-label": "Probability",
+                  "display": {
+                    "enum": [
+                      "HARM_PROBABILITY_UNSPECIFIED - Probability is unspecified.",
+                      "NEGLIGIBLE - Content has a negligible chance of being unsafe.",
+                      "LOW - Content has a low chance of being unsafe.",
+                      "MEDIUM - Content has a medium chance of being unsafe.",
+                      "HIGH - Content has a high chance of being unsafe."
+                    ]
+                  }
+                },
+                "blocked": {
+                  "type": "boolean",
+                  "title": "Blocked",
+                  "description": "Indicates if the content in this category was blocked",
+                  "x-ibm-display-name": "Blocked",
+                  "x-ibm-label": "Blocked"
+                }
+              }
+            }
+          },
+          "citationMetadata": {
+            "type": "object",
+            "title": "Citation metadata",
+            "description": "Metadata about citations found in the generated content",
+            "properties": {
+              "citations": {
+                "type": "array",
+                "description": "A list of citation objects",
+                "items": {
+                  "type": "object",
+                  "description": "Details of a single citation",
+                  "properties": {
+                    "startIndex": {
+                      "type": "number",
+                      "title": "Start index",
+                      "description": "The starting index of the cited text within the generated content",
+                      "x-ibm-display-name": "Start index",
+                      "x-ibm-label": "Start index"
+                    },
+                    "endIndex": {
+                      "type": "number",
+                      "title": "End index",
+                      "description": "The ending index of the cited text within the generated content",
+                      "x-ibm-display-name": "End index",
+                      "x-ibm-label": "End index"
+                    },
+                    "uri": {
+                      "type": "string",
+                      "title": "URI",
+                      "description": "The URI of the source document",
+                      "x-ibm-display-name": "URI",
+                      "x-ibm-label": "URI"
+                    },
+                    "title": {
+                      "type": "string",
+                      "title": "Title",
+                      "description": "The title of the source document",
+                      "x-ibm-display-name": "Title",
+                      "x-ibm-label": "Title"
+                    },
+                    "license": {
+                      "type": "string",
+                      "title": "License",
+                      "description": "The license information for the source document",
+                      "x-ibm-display-name": "License",
+                      "x-ibm-label": "License"
+                    },
+                    "publicationDate": {
+                      "type": "string",
+                      "title": "Publication date",
+                      "description": "The publication date of the source document",
+                      "x-ibm-display-name": "Publication date",
+                      "x-ibm-label": "Publication date"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "groundingMetadata": {
+            "type": "object",
+            "title": "Grounding metadata",
+            "description": "Metadata related to the grounding of the generated content (for example, from search)",
+            "properties": {
+              "retrievalQueries": {
+                "type": "array",
+                "description": "Queries used for internal retrieval to ground the response",
+                "items": {
+                  "type": "string"
+                },
+                "title": "Retrieval queries"
+              },
+              "webSearchQueries": {
+                "type": "array",
+                "description": "Queries used for web search to ground the response",
+                "items": {
+                  "type": "string"
+                },
+                "title": "Web search queries"
+              }
+            }
+          },
+          "urlContextMetadata": {
+            "type": "object",
+            "title": "URL context metadata",
+            "description": "Metadata about URLs used as context for the generation",
+            "properties": {
+              "url": {
+                "type": "string",
+                "title": "URL",
+                "description": "The URL of the context document",
+                "x-ibm-display-name": "URL",
+                "x-ibm-label": "URL"
+              },
+              "title": {
+                "type": "string",
+                "title": "Title",
+                "description": "The title of the context document",
+                "x-ibm-display-name": "Title",
+                "x-ibm-label": "Title"
+              },
+              "renderedContent": {
+                "type": "string",
+                "title": "Rendered content",
+                "description": "The rendered content of the URL",
+                "x-ibm-display-name": "Rendered content",
+                "x-ibm-label": "Rendered content"
+              },
+              "sdkBlob": {
+                "type": "string",
+                "title": "SDK blob",
+                "description": "A base64-encoded string representing a proprietary SDK blob",
+                "x-ibm-display-name": "SDK blob",
+                "x-ibm-label": "SDK blob"
+              }
+            }
+          },
+          "finishMessage": {
+            "type": "string",
+            "title": "Finish message",
+            "description": "An optional message indicating why the model finished generating",
+            "x-ibm-display-name": "Finish message",
+            "x-ibm-label": "Finish message"
+          }
+        }
+      }
+    },
+    "promptFeedback": {
+      "type": "object",
+      "title": "Prompt feedback",
+      "description": "Feedback on the safety of the input prompt",
+      "properties": {
+        "blockReason": {
+          "type": "string",
+          "title": "Block reason",
+          "description": "If set, the prompt was blocked and no candidates are returned. Rephrase the prompt. This field is optional.",
+          "enum": [
+            "BLOCK_REASON_UNSPECIFIED",
+            "SAFETY",
+            "OTHER",
+            "BLOCKLIST",
+            "PROHIBITED_CONTENT",
+            "IMAGE_SAFETY"
+          ],
+          "x-ibm-display-name": "Block reason",
+          "x-ibm-label": "Block reason",
+          "display": {
+            "enum": [
+              "BLOCK_REASON_UNSPECIFIED - Default value. This value is unused.",
+              "SAFETY - Prompt was blocked due to safety reasons. Inspect safetyRatings to understand which safety category blocked it.",
+              "OTHER - Prompt was blocked due to unknown reasons.",
+              "BLOCKLIST - Prompt was blocked due to the terms which are included from the terminology blocklist.",
+              "PROHIBITED_CONTENT - Prompt was blocked due to prohibited content.",
+              "IMAGE_SAFETY - Candidates blocked due to unsafe image generation content."
+            ]
+          }
+        },
+        "safetyRatings": {
+          "type": "array",
+          "description": "Safety ratings for the input prompt.",
+          "items": {
+            "type": "object",
+            "description": "A safety rating for a specific category of the prompt.",
+            "properties": {
+              "category": {
+                "type": "string",
+                "title": "Category",
+                "description": "The category for this rating",
+                "enum": [
+                  "HARM_CATEGORY_UNSPECIFIED",
+                  "HARM_CATEGORY_DEROGATORY",
+                  "HARM_CATEGORY_TOXICITY",
+                  "HARM_CATEGORY_VIOLENCE",
+                  "HARM_CATEGORY_SEXUAL",
+                  "HARM_CATEGORY_MEDICAL",
+                  "HARM_CATEGORY_DANGEROUS",
+                  "HARM_CATEGORY_HARASSMENT",
+                  "HARM_CATEGORY_HATE_SPEECH",
+                  "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                  "HARM_CATEGORY_DANGEROUS_CONTENT",
+                  "HARM_CATEGORY_CIVIC_INTEGRITY"
+                ],
+                "x-ibm-display-name": "Category",
+                "x-ibm-label": "Category",
+                "display": {
+                  "enum": [
+                    "HARM_CATEGORY_UNSPECIFIED - Category is unspecified.",
+                    "HARM_CATEGORY_DEROGATORY - PaLM - Negative or harmful comments targeting identity and/or protected attribute.",
+                    "HARM_CATEGORY_TOXICITY - PaLM - Content that is rude, disrespectful, or profane.",
+                    "HARM_CATEGORY_VIOLENCE - PaLM - Describes scenarios depicting violence against an individual or group, or general descriptions of gore.",
+                    "HARM_CATEGORY_SEXUAL - PaLM - Contains references to sexual acts or other lewd content.",
+                    "HARM_CATEGORY_MEDICAL - PaLM - Promotes unchecked medical advice.",
+                    "HARM_CATEGORY_DANGEROUS - PaLM - Dangerous content that promotes, facilitates, or encourages harmful acts.",
+                    "HARM_CATEGORY_HARASSMENT - Gemini - Harassment content.",
+                    "HARM_CATEGORY_HATE_SPEECH - Gemini - Hate speech and content.",
+                    "HARM_CATEGORY_SEXUALLY_EXPLICIT - Gemini - Sexually explicit content.",
+                    "HARM_CATEGORY_DANGEROUS_CONTENT - Gemini - Dangerous content.",
+                    "HARM_CATEGORY_CIVIC_INTEGRITY - Gemini - Content that may be used to harm civic integrity."
+                  ]
+                }
+              },
+              "probability": {
+                "type": "string",
+                "title": "Probability",
+                "description": "The probability of harm for this content",
+                "enum": [
+                  "HARM_PROBABILITY_UNSPECIFIED",
+                  "NEGLIGIBLE",
+                  "LOW",
+                  "MEDIUM",
+                  "HIGH"
+                ],
+                "x-ibm-display-name": "Probability",
+                "x-ibm-label": "Probability",
+                "display": {
+                  "enum": [
+                    "HARM_PROBABILITY_UNSPECIFIED - Probability is unspecified.",
+                    "NEGLIGIBLE - Content has a negligible chance of being unsafe.",
+                    "LOW - Content has a low chance of being unsafe.",
+                    "MEDIUM - Content has a medium chance of being unsafe.",
+                    "HIGH - Content has a high chance of being unsafe."
+                  ]
+                }
+              },
+              "blocked": {
+                "type": "boolean",
+                "title": "Blocked",
+                "description": "Indicates if the prompt in this category was blocked",
+                "x-ibm-display-name": "Blocked",
+                "x-ibm-label": "Blocked"
+              }
+            }
+          }
+        }
+      }
+    },
+    "usageMetadata": {
+      "type": "object",
+      "title": "Usage metadata",
+      "description": "Metadata about token usage for the request",
+      "properties": {
+        "promptTokenCount": {
+          "type": "number",
+          "title": "Prompt token count",
+          "description": "The number of tokens in the input prompt",
+          "x-ibm-display-name": "Prompt token count",
+          "x-ibm-label": "Prompt token count"
+        },
+        "candidatesTokenCount": {
+          "type": "number",
+          "title": "Candidates token count",
+          "description": "The total number of tokens in all generated candidates",
+          "x-ibm-display-name": "Candidates token count",
+          "x-ibm-label": "Candidates token count"
+        },
+        "totalTokenCount": {
+          "type": "number",
+          "title": "Total token count",
+          "description": "The total number of tokens for the prompt and all candidates",
+          "x-ibm-display-name": "Total token count",
+          "x-ibm-label": "Total token count"
+        },
+        "promptTokensDetails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "Details about token counts per modality for the prompt",
+            "properties": {
+              "modality": {
+                "type": "string",
+                "title": "Modality",
+                "description": "The modality associated with this token count",
+                "enum": [
+                  "MODALITY_UNSPECIFIED",
+                  "TEXT",
+                  "IMAGE",
+                  "VIDEO",
+                  "AUDIO",
+                  "DOCUMENT"
+                ],
+                "x-ibm-display-name": "Modality",
+                "x-ibm-label": "Modality",
+                "display": {
+                  "enum": [
+                    "MODALITY_UNSPECIFIED - Unspecified modality.",
+                    "TEXT - Plain text.",
+                    "IMAGE - Image.",
+                    "VIDEO - Video.",
+                    "AUDIO - Audio.",
+                    "DOCUMENT - Document, e.g. PDF."
+                  ]
+                }
+              },
+              "tokenCount": {
+                "type": "number",
+                "title": "Token count",
+                "description": "The number of tokens for this modality",
+                "x-ibm-display-name": "Token count",
+                "x-ibm-label": "Token count"
+              }
+            }
+          },
+          "title": "Prompt tokens details"
+        },
+        "candidatesTokensDetails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "Details about token counts per modality for the generated candidates",
+            "properties": {
+              "modality": {
+                "type": "string",
+                "title": "Modality",
+                "description": "The modality associated with this token count",
+                "x-ibm-display-name": "Modality",
+                "x-ibm-label": "Modality"
+              },
+              "tokenCount": {
+                "type": "number",
+                "title": "Token count",
+                "description": "The number of tokens for this modality",
+                "x-ibm-display-name": "Token count",
+                "x-ibm-label": "Token count"
+              }
+            }
+          },
+          "title": "Candidates tokens details"
+        }
+      }
+    },
+    "model": {
+      "type": "string",
+      "title": "Model",
+      "description": "The identifier of the model that generated the response",
+      "x-ibm-display-name": "Model",
+      "x-ibm-label": "Model"
+    },
+    "createTime": {
+      "type": "string",
+      "title": "Create time",
+      "description": "The timestamp when the response was created",
+      "x-ibm-display-name": "Create time",
+      "x-ibm-label": "Create time"
+    },
+    "modelVersion": {
+      "type": "string",
+      "title": "Model version",
+      "description": "The version of the model used to generate the response",
+      "x-ibm-display-name": "Model version",
+      "x-ibm-label": "Model version"
+    },
+    "responseId": {
+      "type": "string",
+      "title": "Response ID",
+      "description": "A unique identifier for this specific response",
+      "x-ibm-display-name": "Response ID",
+      "x-ibm-label": "Response ID"
+    }
+  },
+  "title": "Text generation",
+  "additionalProperties": false
+}

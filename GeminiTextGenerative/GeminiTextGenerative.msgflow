@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmApplicationConnectorRequest_googlegemini.msgnode="ComIbmApplicationConnectorRequest_googlegemini.msgnode" xmlns:ComIbmCompute.msgnode="ComIbmCompute.msgnode" xmlns:ComIbmWSInput.msgnode="ComIbmWSInput.msgnode" xmlns:ComIbmWSReply.msgnode="ComIbmWSReply.msgnode" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="GeminiTextGenerative.msgflow" nsPrefix="GeminiTextGenerative.msgflow">
+  <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1" nodeLayoutStyle="RECTANGLE">
+    <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+    <translation xmi:type="utility:TranslatableString" key="GeminiTextGenerative" bundleName="GeminiTextGenerative" pluginId="GeminiTextGenerative"/>
+    <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/GeminiTextGenerative/icons/full/obj16/GeminiTextGenerative.gif"/>
+    <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/GeminiTextGenerative/icons/full/obj30/GeminiTextGenerative.gif"/>
+    <composition>
+      <nodes xmi:type="ComIbmWSInput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="80,128" URLSpecifier="/RequestTextGenerative" messageDomainProperty="JSON">
+        <translation xmi:type="utility:ConstantString" string="HTTP Input"/>
+      </nodes>
+      <nodes xmi:type="ComIbmWSReply.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="631,131">
+        <translation xmi:type="utility:ConstantString" string="HTTP Reply"/>
+      </nodes>
+      <nodes xmi:type="ComIbmApplicationConnectorRequest_googlegemini.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_3" location="359,128" applicationConnectorType="googlegemini" action="postGenerateTextByModelId" businessObject="Text generation" displayName="undefined" schemaPrefix="gen/GeminiTextGenerative.Google_Gemini_Request" policyUrl="{GeminiPolicyProject}:GeminiPolicy" mappingMode="jsonmap" messageSetProperty="gen/GeminiTextGenerative.Google_Gemini_Request.response.schema.json">
+        <translation xmi:type="utility:ConstantString" string="Google Gemini Request"/>
+        <contextReference nodeName="HTTP Input" nodeType="ComIbmWSInput.msgnode" nodeProps="" terminalName="OutTerminal.out" messageDomain="JSON" schemaLocation="" schemaRoot="" resultDataLocation="" flowName=""/>
+        <connectorServiceOptions optionName="httpMethod" optionValue="post"/>
+        <connectorServiceOptions optionName="path" optionValue="resources/Text%20generation/operations/postGenerateTextByModelId"/>
+        <connectorServiceOptions optionName="action" optionValue="custom"/>
+        <requestMap map="{&quot;mappings&quot;:[{&quot;modelId&quot;:{&quot;template&quot;:&quot;models/gemini-2.0-flash&quot;}},{&quot;text&quot;:{&quot;template&quot;:&quot;{{$context_2f6e6f64654e616d652f4854545020496e707574.Payload.Data}}&quot;}}],&quot;$map&quot;:&quot;http://ibm.com/appconnect/map/v1&quot;,&quot;input&quot;:[{&quot;variable&quot;:&quot;context_2f6e6f64654e616d652f4854545020496e707574&quot;,&quot;$ref&quot;:&quot;#/contextReferences/context_2f6e6f64654e616d652f4854545020496e707574&quot;},{&quot;variable&quot;:&quot;FlowDetails&quot;,&quot;$ref&quot;:&quot;#/FlowDetails&quot;},{&quot;variable&quot;:&quot;InvocationDetails&quot;,&quot;$ref&quot;:&quot;#/InvocationDetails&quot;}]}"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_4" location="266,214" computeExpression="esql://routine/#GeminiTextGenerative_Compute.Main">
+        <translation xmi:type="utility:ConstantString" string="Compute"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_5" location="558,217" computeExpression="esql://routine/#GeminiTextGenerative_Compute1.Main">
+        <translation xmi:type="utility:ConstantString" string="Compute1"/>
+      </nodes>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_3" targetNode="FCMComposite_1_4" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_4" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_4" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_5" targetNode="FCMComposite_1_5" sourceNode="FCMComposite_1_3" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_6" targetNode="FCMComposite_1_2" sourceNode="FCMComposite_1_5" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+    </composition>
+    <propertyOrganizer/>
+    <stickyBoard/>
+  </eClassifiers>
+</ecore:EPackage>

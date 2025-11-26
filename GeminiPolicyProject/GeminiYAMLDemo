@@ -1,0 +1,40 @@
+openapi: 3.0.3
+info:
+  title: AI Generative Request API
+  version: 1.0.0
+
+paths:
+  /generate-text:
+    post:
+      summary: Envía una pregunta para recibir una respuesta generada por IA
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextGenerativeRequest'
+      responses:
+        '200':
+          description: Respuesta generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextGenerativeResponse'
+
+components:
+  schemas:
+    TextGenerativeRequest:
+      type: object
+      properties:
+        RequestTextGenerative:
+          type: string
+          example: "Question to get a AI Generative response"
+      required:
+        - RequestTextGenerative
+
+    TextGenerativeResponse:
+      type: object
+      properties:
+        response:
+          type: string
+          example: "Here is an AI-generated response to your question."
