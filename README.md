@@ -7,6 +7,7 @@ Aplicación: https://github.com/LaboratorioAzulTech/AppConnecEnterprise/tree/mai
 ## Demo de conexión de ACE con Gemini en el servicio de texto generativo.
 
 Application: https://github.com/LaboratorioAzulTech/AppConnecEnterprise/tree/main/GeminiTextGenerative
+
 Project Policy: https://github.com/LaboratorioAzulTech/AppConnecEnterprise/tree/main/GeminiPolicyProject
 
 # Aclaración
